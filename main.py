@@ -15,14 +15,16 @@ short_descriptions_ru = []
 descriptions_en = []
 short_descriptions_en = []
 tags = []
-texts = []
+
+
+# texts = []
 
 
 def enrich(row):
     start_time = time.time()
     link = row['link']
     result_caption = image_captioning.get_video_caption(link)
-    result_caption['text'] = speech_recognition.transcribe_video(link)
+    # result_caption['text'] = speech_recognition.transcribe_video(link)
     print("--- Вот за столько секунд обработали %s видео ---" % (time.time() - start_time))
     return result_caption
 
@@ -37,7 +39,7 @@ def try_to_enrich(row, index):
         short_descriptions_ru.append(result['short_description_ru'])
         descriptions_en.append(result['description_en'])
         short_descriptions_en.append(result['short_description_en'])
-        texts.append(result['text'])
+        # texts.append(result['text'])
     except Exception as inst:
         print('УПАЛИИИ')
         print(type(inst))
@@ -73,7 +75,7 @@ if __name__ == '__main__':
             'short_description_ru': short_descriptions_ru,
             'description_en': descriptions_en,
             'short_description_en': short_descriptions_en,
-            'text': texts
+            # 'text': texts
         })
 
         dataframe_for_output.to_csv(DATASET_TEMP_PATH, index=False)
@@ -91,4 +93,4 @@ if __name__ == '__main__':
         descriptions_en = []
         short_descriptions_en = []
         tags = []
-        texts = []
+        # texts = []
