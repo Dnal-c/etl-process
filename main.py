@@ -21,7 +21,7 @@ texts = []
 def enrich(row):
     start_time = time.time()
     link = row['link']
-    result_caption = image_captioning.get_video_caption(link)
+    result_caption = {}  # image_captioning.get_video_caption(link)
     result_caption['text'] = speech_recognition.transcribe_video(link)
     print("--- Вот за столько секунд обработали %s видео ---" % (time.time() - start_time))
     return result_caption
@@ -33,10 +33,10 @@ def try_to_enrich(row, index):
         result = enrich(row)
         links.append(link)
         tags.append(row['description'])
-        descriptions_ru.append(result['description_ru'])
-        short_descriptions_ru.append(result['short_description_ru'])
-        descriptions_en.append(result['description_en'])
-        short_descriptions_en.append(result['short_description_en'])
+        # descriptions_ru.append(result['description_ru'])
+        # short_descriptions_ru.append(result['short_description_ru'])
+        # descriptions_en.append(result['description_en'])
+        # short_descriptions_en.append(result['short_description_en'])
         texts.append(result['text'])
     except Exception as inst:
         print('УПАЛИИИ')
@@ -69,10 +69,10 @@ if __name__ == '__main__':
         dataframe_for_output = pd.DataFrame(data={
             'link': links,
             'tags': tags,
-            'description_ru': descriptions_ru,
-            'short_description_ru': short_descriptions_ru,
-            'description_en': descriptions_en,
-            'short_description_en': short_descriptions_en,
+            # 'description_ru': descriptions_ru,
+            # 'short_description_ru': short_descriptions_ru,
+            # 'description_en': descriptions_en,
+            # 'short_description_en': short_descriptions_en,
             'text': texts
         })
 
@@ -86,9 +86,9 @@ if __name__ == '__main__':
         invalid_rows_dataframe.to_csv(DATASET_FAIL_PATH, index=False)
 
         links = []
-        descriptions_ru = []
-        short_descriptions_ru = []
-        descriptions_en = []
-        short_descriptions_en = []
+        # descriptions_ru = []
+        # short_descriptions_ru = []
+        # descriptions_en = []
+        # short_descriptions_en = []
         tags = []
         texts = []
