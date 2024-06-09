@@ -6,11 +6,7 @@ import uuid
 
 from pathlib import Path
 
-# Параметр, отвечающий за то, куда будем складывать файлы
-BASE_PATH = '../temp/'
-# Параметр, отвечающий за то, сколько фреймов резать за секунду
-SAVING_FRAMES_PER_SECOND = .25
-
+from global_env import TEMP_DIRECTORY_PATH, SAVING_FRAMES_PER_SECOND
 
 def format_timedelta(td):
     """Служебная функция для классного форматирования объектов timedelta (например, 00:00:20.05)
@@ -38,7 +34,7 @@ def get_saving_frames_durations(cap, saving_fps):
 
 def create_temp_directory_with_frames(video_file):
     uid = uuid.uuid1()
-    dirname_str = BASE_PATH + str(uid) + '-opencv'
+    dirname_str = TEMP_DIRECTORY_PATH + str(uid) + '-opencv'
     dirname = Path(dirname_str)
     # создаем папку по названию видео файла
     if not os.path.isdir(dirname_str):
@@ -73,8 +69,7 @@ def create_temp_directory_with_frames(video_file):
             # затем сохраняем фрейм
             # frame_duration_formatted = format_timedelta(timedelta(seconds=frame_duration))
             # only_file_name = filename.split("/")[-1]
-            uid_frame = uuid.uuid1()
-            frame_name = f"frame_{uid_frame}.jpg"
+            frame_name = f"frame_{frame_insert_count}.jpg"
             frame_insert_count += 1
 
             cv2.imwrite(os.path.join(dirname_str, frame_name), frame)
