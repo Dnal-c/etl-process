@@ -1,5 +1,3 @@
-import torch
-import pandas as pd
 from transformers import GPT2TokenizerFast, ViTImageProcessor, AutoTokenizer, AutoModelForSeq2SeqLM, \
     VisionEncoderDecoderModel
 

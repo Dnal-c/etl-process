@@ -1,9 +1,9 @@
-import urllib.parse as parse
 import os
+import urllib.parse as parse
 
 import imagehash
-from PIL import Image
 import requests
+from PIL import Image
 
 
 # функция, определяющая, является ли строка URL-адресом или нет

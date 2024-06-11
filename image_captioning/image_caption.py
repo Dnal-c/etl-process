@@ -1,15 +1,10 @@
 import os
-import shutil
 import random
 import time
 
-import imagehash
-from PIL import Image
-
-import translate.translator as translate
-from .video_to_frames import create_temp_directory_with_frames
-from .utils import load_image
 import global_context
+import translate.translator as translate
+from .utils import load_image
 
 
 # функция инференса

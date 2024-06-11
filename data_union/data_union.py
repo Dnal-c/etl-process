@@ -2,8 +2,9 @@
 Подробное описание данного скрипта в тетрадке data_union.py (notebooks/data_union.py)
 """
 
-import pandas as pd
 import os
+
+import pandas as pd
 
 speech_path = './/speech/'
 captioning_path = './/captioning/'

@@ -1,17 +1,14 @@
+import multiprocessing as mp
 import os.path
 import shutil
+import time
 
 import pandas as pd
 
-from automatic_speech_recognition import speech_recognition
-from global_env import DATASET_PATH, START_INTERVAL, END_INTERVAL, CPU_COUNT, TEMP_DIRECTORY_PATH, ETL_MODE, EtlMode, \
-    CACHE_ENABLED
-from image_captioning import image_caption as image_captioning
-import time
 import global_context
-
-import multiprocessing as mp
-
+from automatic_speech_recognition import speech_recognition
+from global_env import DATASET_PATH, START_INTERVAL, END_INTERVAL, CPU_COUNT, TEMP_DIRECTORY_PATH, ETL_MODE, EtlMode
+from image_captioning import image_caption as image_captioning
 from image_captioning.utils import get_image_hash
 from image_captioning.video_to_frames import create_temp_directory_with_frames
 

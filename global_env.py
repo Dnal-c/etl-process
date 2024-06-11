@@ -1,5 +1,6 @@
-import torch
 from enum import Enum
+
+import torch
 
 CPU_COUNT = 1
 START_INTERVAL = 0

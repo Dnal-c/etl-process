@@ -1,12 +1,12 @@
 import os
+import uuid
+from pathlib import Path
 
 import cv2
 import numpy as np
-import uuid
-
-from pathlib import Path
 
 from global_env import TEMP_DIRECTORY_PATH, SAVING_FRAMES_PER_SECOND
+
 
 def format_timedelta(td):
     """Служебная функция для классного форматирования объектов timedelta (например, 00:00:20.05)
