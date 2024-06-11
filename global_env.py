@@ -14,7 +14,7 @@ WHISPER_COMPUTE_TYPE = "int8" if DEVICE == "gpu" else "float32"
 BASE_DIR_PATH = '/Users/dandi/PycharmProjects/etl-process/'
 MODEL_CAPTION_PATH = BASE_DIR_PATH + '/models/captioning'  # нужен для локальной работы с image captioning
 MODEL_TRANSLATOR_PATH = BASE_DIR_PATH + '/models/translator'  # нужен для локальной работы с automatic speech recogni
-DATASET_PATH = BASE_DIR_PATH + 'notebooks/2024_400k.csv'  # путь до исходной выборки
+DATASET_PATH = BASE_DIR_PATH + 'notebooks/source_dataset.csv'  # путь до исходной выборки
 
 TEMP_DIRECTORY_PATH = '/Users/dandi/Documents/hack/temp/'  # Параметр, отвечающий за то, куда будем складывать файлы
 
