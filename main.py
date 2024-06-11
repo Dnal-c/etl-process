@@ -22,8 +22,8 @@ dataset = pd.read_csv(DATASET_PATH).copy()
 dataset = dataset.sort_values('link')
 
 # Собираем мапу с хешами и обработанными записями для кэша
-DATASET_WITH_HASH_PATH = ''
-current_dataset_with_hash = pd.DataFrame([])  # pd.read_csv(DATASET_WITH_HASH_PATH)
+dataset_with_hash_path = ''
+current_dataset_with_hash = pd.DataFrame([])  # pd.read_csv(dataset_with_hash_path)
 hashWithRowMap = {}
 
 for _, row_with_hash in current_dataset_with_hash.iterrows():
@@ -64,8 +64,8 @@ def enrich(row, index):
         hashWithRowMap[video_hash] = enrich_result
 
     if ETL_MODE != EtlMode.ONLY_CAPTIONING:
-        speech_result = speech_recognition.transcribe_video(link)
-        enrich_result.update(speech_result)
+        speech_text = speech_recognition.recognize_speech(link)
+        enrich_result['text'] = speech_text
 
     print('Вот такая строчка: ', index)
     print("--- Вот за столько секунд обработали %s видео ---" % (time.time() - start_time_enrich))
@@ -87,14 +87,7 @@ def add_row_to_invalid_links(row, index):
 
 
 def try_to_enrich(row, index):
-    try:
-        return enrich(row, index)
-    except Exception as inst:
-        print(type(inst))
-        print(inst.args)
-        print(inst)
-        add_row_to_invalid_links(row, index)
-        return {}
+    return enrich(row, index)
 
 
 def enrich_task(start_index, end_index):
@@ -127,6 +120,23 @@ def get_task_cursors():
     return task_cursors_internal
 
 
+def get_file_prefix():
+    match ETL_MODE:
+        case ETL_MODE.ONLY_SPEECH:
+            return 'speech_'
+        case ETL_MODE.ONLY_CAPTIONING:
+            return 'captioning_'
+        case _:
+            return 'full_data_'
+
+
+def get_temp_file_full_name():
+    file_prefix = get_file_prefix()
+    success_file_path = TEMP_DIRECTORY_PATH + file_prefix + str(START_INTERVAL) + '-' + str(END_INTERVAL) + '.csv'
+    fail_file_path = TEMP_DIRECTORY_PATH + 'fail_' + str(START_INTERVAL) + '-' + str(END_INTERVAL) + '.csv'
+    return success_file_path, fail_file_path
+
+
 if __name__ == '__main__':
     start_time = time.time()
     task_cursors = get_task_cursors()
@@ -136,14 +146,15 @@ if __name__ == '__main__':
         dataframe_data = [chuck_data for chunk in dataframe_data for chuck_data in chunk]
         dataframe_data = filter(filter_na_values, dataframe_data)
 
-        DATASET_TEMP_PATH = TEMP_DIRECTORY_PATH + 'test_' + str(START_INTERVAL) + '.csv'
-        DATASET_FAIL_PATH = TEMP_DIRECTORY_PATH + 'fail_' + str(START_INTERVAL) + '.csv'
+        full_file_names = get_temp_file_full_name()
+        success_file_name = full_file_names[0]
+        fail_file_name = full_file_names[1]
 
         dataframe_for_output = pd.DataFrame(dataframe_data)
-        dataframe_for_output.to_csv(DATASET_TEMP_PATH, index=False)
+        dataframe_for_output.to_csv(success_file_name, index=False)
 
         dataframe_with_failed_data_output = pd.DataFrame(invalided_links)
-        dataframe_with_failed_data_output.to_csv(DATASET_FAIL_PATH, index=False)
+        dataframe_with_failed_data_output.to_csv(fail_file_name, index=False)
 
     evaluation_time = (time.time() - start_time) / 60
 

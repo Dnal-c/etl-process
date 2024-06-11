@@ -40,14 +40,20 @@ for dirname, _, filenames in os.walk(captioning_path):
                 temp_df = pd.read_csv(df_path)
                 concated_captionin_frame = pd.concat([concated_captionin_frame, temp_df])
 
+text_link_map = {
+
+}
+
+for index, row in concated_speech_frame.iterrows():
+    row_link = row['link']
+    row_text = row['text']
+    text_link_map[row_link] = row_text
 
 def find_speech_by_link(row):
-    link = row['link']
-    series = concated_speech_frame[concated_speech_frame['link'] == link]['text']
-    return series.values[0] if series.size > 0 else None
+    return text_link_map.get(row['link'])
 
 
-concated_captionin_frame['text'] = concated_captionin_frame.apply(find_speech_by_link, axis=1)
+#concated_captionin_frame['text'] = concated_captionin_frame.apply(find_speech_by_link, axis=1)
 
-concated_captionin_frame.to_csv(output_captioning_path, index=False)
+# concated_captionin_frame.to_csv(output_captioning_path, index=False)
 # concated_speech_frame.to_csv(output_speech_path, index=False)
