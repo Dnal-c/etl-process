@@ -1,5 +1,5 @@
 """
-Подробное описание данного скрипта в тетрадке data_union.py (notebooks/data_union.py)
+Подробное описание данного скрипта в тетрадке data_union.py
 """
 
 import os

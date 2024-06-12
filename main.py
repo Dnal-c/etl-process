@@ -6,7 +6,7 @@ import time
 import pandas as pd
 
 import global_context
-from automatic_speech_recognition import speech_recognition
+#from automatic_speech_recognition import speech_recognition
 from global_env import DATASET_PATH, START_INTERVAL, END_INTERVAL, CPU_COUNT, TEMP_DIRECTORY_PATH, ETL_MODE, EtlMode
 from image_captioning import image_caption as image_captioning
 from image_captioning.utils import get_image_hash
@@ -61,8 +61,9 @@ def enrich(row, index):
         hashWithRowMap[video_hash] = enrich_result
 
     if ETL_MODE != EtlMode.ONLY_CAPTIONING:
-        speech_text = speech_recognition.recognize_speech(link)
-        enrich_result['text'] = speech_text
+        print("")
+        #speech_text = speech_recognition.recognize_speech(link)
+        #enrich_result['text'] = speech_text
 
     print('Вот такая строчка: ', index)
     print("--- Вот за столько секунд обработали %s видео ---" % (time.time() - start_time_enrich))
