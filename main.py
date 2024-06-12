@@ -84,7 +84,14 @@ def add_row_to_invalid_links(row, index):
 
 
 def try_to_enrich(row, index):
-    return enrich(row, index)
+    try:
+        return enrich(row, index)
+    except Exception as inst:
+        print(type(inst))
+        print(inst.args)
+        print(inst)
+        add_row_to_invalid_links(row, index)
+        return {}
 
 
 def enrich_task(start_index, end_index):

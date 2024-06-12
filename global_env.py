@@ -27,5 +27,5 @@ class EtlMode(Enum):
     ONLY_CAPTIONING = 3
 
 
-ETL_MODE = EtlMode.ONLY_SPEECH
+ETL_MODE = EtlMode.ONLY_CAPTIONING
 CACHE_ENABLED = True # нужно ли подрубать кэш в рантайме для оптимизации работы модели
