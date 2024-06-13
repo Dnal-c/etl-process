@@ -112,19 +112,6 @@ def filter_na_values(row):
     return True
 
 
-def get_task_cursors():
-    task_cursors_internal = []
-    batch_size = (END_INTERVAL - START_INTERVAL) / CPU_COUNT
-    temp_start = START_INTERVAL
-    while temp_start < END_INTERVAL:
-        i = int(temp_start)
-        j = int(min(i + batch_size, END_INTERVAL))
-
-        task_cursors_internal.append((i, j))
-        temp_start += batch_size
-    return task_cursors_internal
-
-
 def get_file_prefix():
     match ETL_MODE:
         case ETL_MODE.ONLY_SPEECH:
@@ -144,22 +131,19 @@ def get_temp_file_full_name():
 
 if __name__ == '__main__':
     start_time = time.time()
-    task_cursors = get_task_cursors()
 
-    with mp.Pool(CPU_COUNT) as thread_pool:
-        dataframe_data = thread_pool.starmap(enrich_task, task_cursors)
-        dataframe_data = [chuck_data for chunk in dataframe_data for chuck_data in chunk]
-        dataframe_data = filter(filter_na_values, dataframe_data)
+    dataframe_data = enrich_task(START_INTERVAL, END_INTERVAL)
+    dataframe_data = filter(filter_na_values, dataframe_data)
 
-        full_file_names = get_temp_file_full_name()
-        success_file_name = full_file_names[0]
-        fail_file_name = full_file_names[1]
+    full_file_names = get_temp_file_full_name()
+    success_file_name = full_file_names[0]
+    fail_file_name = full_file_names[1]
 
-        dataframe_for_output = pd.DataFrame(dataframe_data)
-        dataframe_for_output.to_csv(success_file_name, index=False)
+    dataframe_for_output = pd.DataFrame(dataframe_data)
+    dataframe_for_output.to_csv(success_file_name, index=False)
 
-        dataframe_with_failed_data_output = pd.DataFrame(invalided_links)
-        dataframe_with_failed_data_output.to_csv(fail_file_name, index=False)
+    dataframe_with_failed_data_output = pd.DataFrame(invalided_links)
+    dataframe_with_failed_data_output.to_csv(fail_file_name, index=False)
 
     evaluation_time = (time.time() - start_time) / 60
 
