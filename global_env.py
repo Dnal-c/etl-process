@@ -3,8 +3,8 @@ from enum import Enum
 import torch
 
 CPU_COUNT = 2
-START_INTERVAL = 50000
-END_INTERVAL = 100000
+START_INTERVAL = 40000
+END_INTERVAL = 50000
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -16,7 +16,7 @@ MODEL_CAPTION_PATH = BASE_DIR_PATH + '/models/captioning'  # нужен для �
 MODEL_TRANSLATOR_PATH = BASE_DIR_PATH + '/models/translator'  # нужен для локальной работы с automatic speech recogni
 DATASET_PATH = BASE_DIR_PATH + 'source_dataset.csv'  # путь до исходной выборки
 
-TEMP_DIRECTORY_PATH = '/root/projects/temp/'  # Параметр, отвечающий за то, куда будем складывать файлы
+TEMP_DIRECTORY_PATH = '/root/projects/etl-process/result/'  # Параметр, отвечающий за то, куда будем складывать файлы
 
 SAVING_FRAMES_PER_SECOND = .25  # Параметр, отвечающий за то, сколько фреймов с видео резать за секунду для обработки
 
