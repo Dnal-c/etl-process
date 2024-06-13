@@ -7,7 +7,8 @@ import pandas as pd
 
 import global_context
 from automatic_speech_recognition import speech_recognition
-from global_env import DATASET_PATH, START_INTERVAL, END_INTERVAL, CPU_COUNT, TEMP_DIRECTORY_PATH, ETL_MODE, EtlMode
+from global_env import DATASET_PATH, START_INTERVAL, END_INTERVAL, CPU_COUNT, TEMP_DIRECTORY_PATH, ETL_MODE, EtlMode, \
+    DEVICE
 from image_captioning import image_caption as image_captioning
 from image_captioning.utils import get_image_hash
 from image_captioning.video_to_frames import create_temp_directory_with_frames
@@ -130,6 +131,7 @@ def get_temp_file_full_name():
 
 
 if __name__ == '__main__':
+    print("ВОТ ТАКОЙ У НАС ДЕВАЙС", DEVICE)
     start_time = time.time()
 
     dataframe_data = enrich_task(START_INTERVAL, END_INTERVAL)
